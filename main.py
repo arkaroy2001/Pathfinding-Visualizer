@@ -84,6 +84,7 @@ def main():
                     grid = grid_utils.clear_grid(grid,14,14)
                 elif pathfind_button.button_rect.collidepoint(mouse_pos):
                     #print("Pathfind Button was pressed")
+                    grid = grid_utils.clean_grid(grid, 14, 14)
                     graph = dijkstra.Graph(grid)
                     graph.start_search(grid, SCREEN)
                 else:
@@ -149,11 +150,11 @@ def update_squares(SCREEN, grid):
 def drawButtons():
     wall_button = button.Button(SCREEN, colors.GRAY, 5, HEIGHT + 15, 150, 50, "Wall")
     wall_button.draw()
-    start_button = button.Button(SCREEN, colors.GREEN, 5 + 155, HEIGHT + 15, 150, 50, "Start Position")
+    start_button = button.Button(SCREEN, colors.BLUE, 5 + 155, HEIGHT + 15, 150, 50, "Start Position")
     start_button.draw()
     end_button = button.Button(SCREEN, colors.RED, 5 + (2 * 155), HEIGHT + 15, 150, 50, "End Position")
     end_button.draw()
-    pathfind_button = button.Button(SCREEN, colors.BLUE, 5 + (3 * 155), HEIGHT + 15, 150, 50, "Path Find")
+    pathfind_button = button.Button(SCREEN, colors.LIME_GREEN, 5 + (3 * 155), HEIGHT + 15, 150, 50, "Path Find")
     pathfind_button.draw()
     clear_button = button.Button(SCREEN, colors.ORANGE, 5 + (4 * 155), HEIGHT + 15, 150, 50, "Clear Grid")
     clear_button.draw()

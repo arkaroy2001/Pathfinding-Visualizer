@@ -20,20 +20,20 @@ class Graph():
 
                 if grid[square.x][square.y - 1].state != "wall":
                     square.neighbors.append(grid[square.x][square.y - 1])
-                    self.neighbors_map[(square.x,square.y)][(square.x,square.y-1)] = grid[square.x][square.y-1].weight
+                    self.neighbors_map[(square.x,square.y)][(square.x,square.y-1)] = grid[square.x][square.y].weight + grid[square.x][square.y-1].weight
                 if grid[square.x][square.y + 1].state != "wall":
                     square.neighbors.append(grid[square.x][square.y + 1])
-                    self.neighbors_map[(square.x, square.y)][(square.x, square.y + 1)] = grid[square.x][square.y + 1].weight
+                    self.neighbors_map[(square.x, square.y)][(square.x, square.y + 1)] = grid[square.x][square.y].weight + grid[square.x][square.y + 1].weight
                 if grid[square.x - 1][square.y].state != "wall":
                     square.neighbors.append(grid[square.x - 1][square.y])
-                    self.neighbors_map[(square.x, square.y)][(square.x-1, square.y)] = grid[square.x-1][square.y].weight
+                    self.neighbors_map[(square.x, square.y)][(square.x-1, square.y)] = grid[square.x][square.y].weight + grid[square.x-1][square.y].weight
                 if grid[square.x + 1][square.y].state != "wall":
                     square.neighbors.append(grid[square.x + 1][square.y])
-                    self.neighbors_map[(square.x, square.y)][(square.x+1, square.y)] = grid[square.x+1][square.y].weight
+                    self.neighbors_map[(square.x, square.y)][(square.x+1, square.y)] = grid[square.x][square.y].weight + grid[square.x+1][square.y].weight
 
                 self.nodes.append((square.x, square.y))
 
-        # print("HAHA")
+        print("HAHA")
 
         # for column in grid:
             #for square in column:
@@ -149,21 +149,3 @@ class Graph():
                 return returnVect
 
         return returnVect
-        # for objects in nodeMap:
-
-        # for column in grid:
-        #     for square in column:
-
-        # add (0,start) to priority queue
-        # priority queue ordered by weights
-
-        # while the pq is not empty
-
-        # pop (distance, curr) from pq
-
-        # if curr is not done
-
-        # mark curr as done
-
-        # for all edges
-

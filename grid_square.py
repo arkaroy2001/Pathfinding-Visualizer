@@ -46,7 +46,7 @@ class GridSquare:
         self.state = "start_pos"
         print("YOU")
         self.distance = 0
-        self.color = colors.GREEN
+        self.color = colors.BLUE
 
     def turn_to_end_pos(self):
         self.state = "end_pos"
@@ -73,7 +73,6 @@ class GridSquare:
             self.color = colors.PURPLE
         if self.back_trace == True:
             self.color = colors.LIME_GREEN
-        pygame.draw.rect(SCREEN, self.color, (((self.width + self.PAD) * self.x + self.PAD), ((self.width + self.PAD) * self.y + self.PAD), self.width,
-        self.width))
+        self.draw(SCREEN)
         print("THERE")
 

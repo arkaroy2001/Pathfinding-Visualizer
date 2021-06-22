@@ -28,6 +28,22 @@ def load_grid(columns, rows, WIDTH, PAD):
     return grid
 
 
+def clean_grid(grid,columns,rows):
+    for column in grid:
+        for square in column:
+            if square.border == True\
+                or square.state == "wall"\
+                or square.state == "start_pos"\
+                or square.state == "end_pos":
+                continue
+
+            square.turn_to_free()
+            square.is_visited = False
+            square.back_trace = False
+
+    return grid
+
+
 def clear_grid(grid, columns, rows):
     for column in grid:
         for square in column:
@@ -35,6 +51,8 @@ def clear_grid(grid, columns, rows):
                 continue
 
             square.turn_to_free()
+            square.is_visited = False
+            square.back_trace = False
 
     return grid
 
