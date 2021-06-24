@@ -180,12 +180,12 @@ class Graph():
         end_coordinate = (end_grid.x, end_grid.y)
         for objects in self.AllNodes():
             Node = {"coordinate": objects, "done": False, "distance": math.inf,
-                    "h-score":abs(end_grid.x - objects[0])+abs(end_grid.y-objects[1])}
+                    "h-score":math.sqrt(abs(end_grid.x - objects[0])**2+abs(end_grid.y-objects[1])**2)}
             nodeMap[objects] = Node
 
         nodeMap[start_coordinate]["distance"] = 0
         returnVect = []
-        pq.put((0+(abs(end_grid.x - start_grid.x)+abs(end_grid.y-start_grid.y)), (0, 0), start_coordinate))
+        pq.put((0+(math.sqrt(abs(end_grid.x - start_grid.x)**2+abs(end_grid.y-start_grid.y)**2)), (0, 0), start_coordinate))
         # print("LOL")
 
         while not pq.empty():
@@ -275,12 +275,12 @@ class Graph():
         end_coordinate = (end_grid.x, end_grid.y)
         for objects in self.AllNodes():
             Node = {"done": False,
-                    "h-score":abs(end_grid.x - objects[0])+abs(end_grid.y-objects[1])}
+                    "h-score":math.sqrt(abs(end_grid.x - objects[0])**2+abs(end_grid.y-objects[1])**2)}
             nodeMap[objects] = Node
 
 
         returnVect = []
-        pq.put(((abs(end_grid.x - start_grid.x)+abs(end_grid.y-start_grid.y)), (0, 0), start_coordinate))
+        pq.put(((math.sqrt(abs(end_grid.x - start_grid.x)**2+abs(end_grid.y-start_grid.y)**2)), (0, 0), start_coordinate))
         # print("LOL")
 
         while not pq.empty():
