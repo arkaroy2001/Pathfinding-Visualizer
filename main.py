@@ -44,6 +44,10 @@ FPS = 60
 current_mode = "wall"
 current_algo = "dijkstra"
 
+astar_clicked = False
+greedy_clicked = False
+dijk_clicked = True
+
 def current_walls():
     global current_mode
     current_mode = "wall"
@@ -57,23 +61,32 @@ def current_end_pos():
     current_mode = "end_pos"
 
 def current_dijk():
-    global current_algo
+    global current_algo,dijk_clicked,astar_clicked,greedy_clicked
     current_algo = "dijkstra"
+    dijk_clicked = True
+    astar_clicked = False
+    greedy_clicked = False
 
 def current_astar():
-    global current_algo
+    global current_algo,dijk_clicked,astar_clicked,greedy_clicked
     current_algo = "astar"
+    dijk_clicked = False
+    astar_clicked = True
+    greedy_clicked = False
 
 def current_greedy():
-    global current_algo
+    global current_algo,dijk_clicked,astar_clicked,greedy_clicked
     current_algo = "greedy"
+    dijk_clicked = False
+    astar_clicked = False
+    greedy_clicked = True
 
 
 def main():
     # print("You entered: ", sys.argv[1], sys.argv[2], sys.argv[3])
     global SCREEN, CLOCK
     pygame.init()
-    SCREEN = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+    SCREEN = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT),pygame.RESIZABLE|pygame.SCALED)
     CLOCK = pygame.time.Clock()
     SCREEN.fill(colors.BLACK)
     pygame.display.set_caption("PathFinding Visualizer")
@@ -183,21 +196,21 @@ def update_squares(SCREEN, grid):
     pygame.display.update()
 
 def drawButtons():
-    wall_button = button.Button(SCREEN, colors.GRAY, 5, HEIGHT + 15, 160, 75, "Wall")
+    wall_button = button.Button(SCREEN, colors.GRAY, 5, HEIGHT + 5, 160, 75, "Wall")
     wall_button.draw()
-    start_button = button.Button(SCREEN, colors.BLUE, 5 + 165, HEIGHT + 15, 160, 75, "Start Position")
+    start_button = button.Button(SCREEN, colors.BLUE, 5 + 165, HEIGHT + 5, 160, 75, "Start Position")
     start_button.draw()
-    end_button = button.Button(SCREEN, colors.RED, 5 + (2 * 165), HEIGHT + 15, 160, 75, "End Position")
+    end_button = button.Button(SCREEN, colors.RED, 5 + (2 * 165), HEIGHT + 5, 160, 75, "End Position")
     end_button.draw()
-    pathfind_button = button.Button(SCREEN, colors.LIME_GREEN, 5 + (3 * 165), HEIGHT + 15, 160, 75, "Path Find")
+    pathfind_button = button.Button(SCREEN, colors.LIME_GREEN, 5 + (3 * 165), HEIGHT + 5, 160, 75, "Path Find")
     pathfind_button.draw()
-    clear_button = button.Button(SCREEN, colors.ORANGE, 5 + (4 * 165), HEIGHT + 15, 160, 75 , "Clear Grid")
+    clear_button = button.Button(SCREEN, colors.ORANGE, 5 + (4 * 165), HEIGHT + 5, 160, 75 , "Clear Grid")
     clear_button.draw()
-    dijk_button = button.Button(SCREEN, colors.WHITE,WIDTH+2,10,WIN_WIDTH-(WIDTH+2),50, "Dijkstra")
+    dijk_button = button.Button(SCREEN, colors.LIME_GREEN if dijk_clicked is True else colors.WHITE ,WIDTH+2,10,WIN_WIDTH-(WIDTH+2),50, "Dijkstra")
     dijk_button.draw()
-    astar_button = button.Button(SCREEN, colors.WHITE,WIDTH+2,10+55,WIN_WIDTH-(WIDTH+2),50, "A*")
+    astar_button = button.Button(SCREEN, colors.LIME_GREEN if astar_clicked is True else colors.WHITE,WIDTH+2,10+55,WIN_WIDTH-(WIDTH+2),50, "A*")
     astar_button.draw()
-    greedy_button = button.Button(SCREEN, colors.WHITE, WIDTH + 2, 10 + 110, WIN_WIDTH - (WIDTH + 2), 50, "Greedy First")
+    greedy_button = button.Button(SCREEN, colors.LIME_GREEN if greedy_clicked is True else colors.WHITE, WIDTH + 2, 10 + 110, WIN_WIDTH - (WIDTH + 2), 50, "Greedy First")
     greedy_button.draw()
     return wall_button,start_button,end_button,pathfind_button,clear_button,dijk_button,astar_button,greedy_button
 

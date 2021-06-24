@@ -1,4 +1,3 @@
-import main
 import colors
 import pygame
 import math

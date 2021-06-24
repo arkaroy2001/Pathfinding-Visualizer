@@ -112,7 +112,7 @@ class Graph():
                     present[1])
                     grid[present[2][0]][present[2][1]].back_trace = True
                     grid[present[2][0]][present[2][1]].animate(SCREEN)
-                    time.sleep(0.04)
+                    time.sleep(0.03)
                     main.update_squares(SCREEN, grid)
 
                 bt_helper.append(present)
@@ -135,7 +135,7 @@ class Graph():
                     #print("HERE")
                     grid[top[2][0]][top[2][1]].animate(SCREEN)
                     #print("{},{}".format(top[2][0],top[2][1]))
-                    time.sleep(0.02)
+                    time.sleep(0.01)
 
                 main.update_squares(SCREEN, grid)
                 grid_neighbors = self.findNeighbors(top[2])
@@ -204,7 +204,7 @@ class Graph():
                         present[1])
                     grid[present[2][0]][present[2][1]].back_trace = True
                     grid[present[2][0]][present[2][1]].animate(SCREEN)
-                    time.sleep(0.04)
+                    time.sleep(0.03)
                     main.update_squares(SCREEN, grid)
 
                 bt_helper.append(present)
@@ -227,7 +227,7 @@ class Graph():
                     # print("HERE")
                     grid[top[2][0]][top[2][1]].animate(SCREEN)
                     # print("{},{}".format(top[2][0],top[2][1]))
-                    time.sleep(0.02)
+                    time.sleep(0.01)
 
                 main.update_squares(SCREEN, grid)
                 grid_neighbors = self.findNeighbors(top[2])
@@ -299,7 +299,7 @@ class Graph():
                     present[1])
                     grid[present[2][0]][present[2][1]].back_trace = True
                     grid[present[2][0]][present[2][1]].animate(SCREEN)
-                    time.sleep(0.04)
+                    time.sleep(0.03)
                     main.update_squares(SCREEN, grid)
                     print("HOLA")
 
@@ -323,7 +323,7 @@ class Graph():
                     # print("HERE")
                     grid[top[2][0]][top[2][1]].animate(SCREEN)
                     # print("{},{}".format(top[2][0],top[2][1]))
-                    time.sleep(0.02)
+                    time.sleep(0.01)
 
                 main.update_squares(SCREEN, grid)
                 grid_neighbors = self.findNeighbors(top[2])
@@ -340,3 +340,5 @@ class Graph():
 
 
         return returnVect
+
+

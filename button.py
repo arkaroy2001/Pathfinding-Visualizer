@@ -1,5 +1,4 @@
 import pygame
-import main
 import colors
 
 class Button():
@@ -13,6 +12,7 @@ class Button():
         self.text = text
         self.button_rect = pygame.Rect(self.x, self.y, self.width, self.height)
 
+    clicked = False
 
     def draw(self):
         global clicked
@@ -29,6 +29,9 @@ class Button():
 
         else:
             pygame.draw.rect(self.SCREEN,self.color, self.button_rect)
+
+
+
 
         pygame.draw.line(self.SCREEN, colors.WHITE, (self.x,self.y),(self.x + self.width,self.y),2)
         pygame.draw.line(self.SCREEN, colors.WHITE, (self.x, self.y), (self.x,  self.y + self.height), 2)
