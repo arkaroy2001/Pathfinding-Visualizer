@@ -85,9 +85,13 @@ def current_greedy():
 def main():
     # print("You entered: ", sys.argv[1], sys.argv[2], sys.argv[3])
     global SCREEN, CLOCK
+
     pygame.init()
+
     SCREEN = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT),pygame.RESIZABLE|pygame.SCALED)
     CLOCK = pygame.time.Clock()
+    programIcon = pygame.image.load('icon.png')
+    pygame.display.set_icon(programIcon)
     SCREEN.fill(colors.BLACK)
     pygame.display.set_caption("PathFinding Visualizer")
     grid = grid_utils.load_grid(num_cols, num_rows, square_width, 1)
