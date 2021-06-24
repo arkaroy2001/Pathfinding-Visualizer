@@ -44,7 +44,7 @@ class GridSquare:
 
     def turn_to_start_pos(self):
         self.state = "start_pos"
-        print("YOU")
+        #print("YOU")
         self.distance = 0
         self.color = colors.BLUE
 
@@ -74,5 +74,5 @@ class GridSquare:
         if self.back_trace == True:
             self.color = colors.LIME_GREEN
         self.draw(SCREEN)
-        print("THERE")
+        #print("THERE")
 

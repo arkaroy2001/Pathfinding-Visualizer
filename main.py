@@ -13,25 +13,36 @@ import grid_square
 import grid_utils
 # root = tk.Tk()
 # # root.mainloop()
-import dijkstra
+import Algo
 
-WIN_WIDTH = 800
-WIN_HEIGHT = 700
 
-WIDTH = int(WIN_WIDTH*0.7)
-HEIGHT = int(WIN_HEIGHT*0.8)
+num_rows = 20
+num_cols = 20
+
+square_width = 40
 PAD = 1
+
+WIN_WIDTH = (num_rows * (square_width+PAD))+250
+WIN_HEIGHT = (num_cols * (square_width+PAD))+100
+
+WIDTH = (num_cols * (square_width+PAD))
+HEIGHT = (num_cols * (square_width+PAD))
+
 FPS = 60
 
-width = 40
+
+
 
 #define colors
+
+# WIN_WIDTH = 800
+# WIN_HEIGHT = 700
 
 
 
 #define global variable
 current_mode = "wall"
-
+current_algo = "dijkstra"
 
 def current_walls():
     global current_mode
@@ -45,6 +56,18 @@ def current_end_pos():
     global current_mode
     current_mode = "end_pos"
 
+def current_dijk():
+    global current_algo
+    current_algo = "dijkstra"
+
+def current_astar():
+    global current_algo
+    current_algo = "astar"
+
+def current_greedy():
+    global current_algo
+    current_algo = "greedy"
+
 
 def main():
     # print("You entered: ", sys.argv[1], sys.argv[2], sys.argv[3])
@@ -54,12 +77,13 @@ def main():
     CLOCK = pygame.time.Clock()
     SCREEN.fill(colors.BLACK)
     pygame.display.set_caption("PathFinding Visualizer")
-    grid = grid_utils.load_grid(14, 14, width, 1)
+    grid = grid_utils.load_grid(num_cols, num_rows, square_width, 1)
 
     # button = pygame.Rect(5,HEIGHT+10,100,50)
     while True:
 
-        wall_button,start_button,end_button,pathfind_button,clear_button = drawButtons()
+        wall_button,start_button,end_button,pathfind_button,\
+        clear_button,dijk_button,astar_button,greedy_button = drawButtons()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -81,15 +105,26 @@ def main():
                     current_end_pos()
                 elif clear_button.button_rect.collidepoint(mouse_pos):
                     #print("Clear Button was pressed")
-                    grid = grid_utils.clear_grid(grid,14,14)
+                    grid = grid_utils.clear_grid(grid,num_cols,num_rows)
+                elif dijk_button.button_rect.collidepoint(mouse_pos):
+                    current_dijk()
+                elif astar_button.button_rect.collidepoint(mouse_pos):
+                    current_astar()
+                elif greedy_button.button_rect.collidepoint(mouse_pos):
+                    current_greedy()
                 elif pathfind_button.button_rect.collidepoint(mouse_pos):
                     #print("Pathfind Button was pressed")
-                    grid = grid_utils.clean_grid(grid, 14, 14)
-                    graph = dijkstra.Graph(grid)
-                    graph.start_search(grid, SCREEN)
+                    grid = grid_utils.clean_grid(grid, num_cols, num_rows)
+                    graph = Algo.Graph(grid)
+                    if current_algo == "dijkstra":
+                        graph.start_dijkstra(grid, SCREEN)
+                    elif current_algo == "astar":
+                        graph.start_astar(grid, SCREEN)
+                    elif current_algo == "greedy":
+                        graph.start_greedy(grid, SCREEN)
                 else:
-                    column = mouse_pos[0] // (width + PAD)
-                    row = mouse_pos[1] // (width + PAD)
+                    column = mouse_pos[0] // (square_width + PAD)
+                    row = mouse_pos[1] // (square_width + PAD)
                     try:
                         if current_mode == "start_pos":
                             for i in grid:
@@ -114,8 +149,8 @@ def main():
 
             elif pygame.mouse.get_pressed()[0]:
                 position = pygame.mouse.get_pos()
-                column = position[0] // (width + PAD)
-                row = position[1] // (width + PAD)
+                column = position[0] // (square_width + PAD)
+                row = position[1] // (square_width + PAD)
 
                 if current_mode == "end_pos":
                     pass
@@ -148,18 +183,23 @@ def update_squares(SCREEN, grid):
     pygame.display.update()
 
 def drawButtons():
-    wall_button = button.Button(SCREEN, colors.GRAY, 5, HEIGHT + 15, 150, 50, "Wall")
+    wall_button = button.Button(SCREEN, colors.GRAY, 5, HEIGHT + 15, 160, 75, "Wall")
     wall_button.draw()
-    start_button = button.Button(SCREEN, colors.BLUE, 5 + 155, HEIGHT + 15, 150, 50, "Start Position")
+    start_button = button.Button(SCREEN, colors.BLUE, 5 + 165, HEIGHT + 15, 160, 75, "Start Position")
     start_button.draw()
-    end_button = button.Button(SCREEN, colors.RED, 5 + (2 * 155), HEIGHT + 15, 150, 50, "End Position")
+    end_button = button.Button(SCREEN, colors.RED, 5 + (2 * 165), HEIGHT + 15, 160, 75, "End Position")
     end_button.draw()
-    pathfind_button = button.Button(SCREEN, colors.LIME_GREEN, 5 + (3 * 155), HEIGHT + 15, 150, 50, "Path Find")
+    pathfind_button = button.Button(SCREEN, colors.LIME_GREEN, 5 + (3 * 165), HEIGHT + 15, 160, 75, "Path Find")
     pathfind_button.draw()
-    clear_button = button.Button(SCREEN, colors.ORANGE, 5 + (4 * 155), HEIGHT + 15, 150, 50, "Clear Grid")
+    clear_button = button.Button(SCREEN, colors.ORANGE, 5 + (4 * 165), HEIGHT + 15, 160, 75 , "Clear Grid")
     clear_button.draw()
-
-    return wall_button,start_button,end_button,pathfind_button,clear_button
+    dijk_button = button.Button(SCREEN, colors.WHITE,WIDTH+2,10,WIN_WIDTH-(WIDTH+2),50, "Dijkstra")
+    dijk_button.draw()
+    astar_button = button.Button(SCREEN, colors.WHITE,WIDTH+2,10+55,WIN_WIDTH-(WIDTH+2),50, "A*")
+    astar_button.draw()
+    greedy_button = button.Button(SCREEN, colors.WHITE, WIDTH + 2, 10 + 110, WIN_WIDTH - (WIDTH + 2), 50, "Greedy First")
+    greedy_button.draw()
+    return wall_button,start_button,end_button,pathfind_button,clear_button,dijk_button,astar_button,greedy_button
 
 
 

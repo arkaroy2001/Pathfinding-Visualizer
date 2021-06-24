@@ -22,6 +22,8 @@ class Button():
         if self.button_rect.collidepoint(mouse_pos):
             if pygame.mouse.get_pressed()[0] == 1:
                 pygame.draw.rect(self.SCREEN,colors.WHITE, self.button_rect)
+                if(self.color == colors.WHITE):
+                    pygame.draw.rect(self.SCREEN, colors.LIME_GREEN, self.button_rect)
             else:
                 pygame.draw.rect(self.SCREEN,self.color, self.button_rect)
 
