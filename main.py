@@ -90,7 +90,7 @@ def main():
 
     SCREEN = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT),pygame.RESIZABLE|pygame.SCALED)
     CLOCK = pygame.time.Clock()
-    programIcon = pygame.image.load('icon.png')
+    programIcon = pygame.image.load('images/icon.png')
     pygame.display.set_icon(programIcon)
     SCREEN.fill(colors.BLACK)
     pygame.display.set_caption("PathFinding Visualizer")
