@@ -8,18 +8,19 @@ def load_grid(columns, rows, WIDTH, PAD):
     xnum = columns
     ynum = rows
 
+    # columns is outer array and rows are the nested array
+    # grid[2][3] accesses the 2nd column (x-axis) and the 3rd row (y-axis)
     for row in range(ynum):
         grid.append([])
         for column in range(xnum):
             x = column
             y = row
 
-            square = grid_square.GridSquare(x,y,WIDTH, PAD)
+            square = grid_square.GridSquare(x, y, WIDTH, PAD)
 
-            # if square.x==0 or square.y==0 or square.x==xnum-1 or square.y==ynum-1:
-            #     square.turn_to_wall()
-            #     square.border = True
-            if square.x==0 or square.y==0 or square.x==xnum-1 or square.y==ynum-1:
+            # if it is the outer squares in the grid, turn the squares into "wall" state
+            # we are going to be ignoring these squares when doing the path-finding algorithms
+            if square.x == 0 or square.y == 0 or square.x == xnum - 1 or square.y == ynum - 1:
                 square.turn_to_wall()
                 square.border = True
 
@@ -28,13 +29,12 @@ def load_grid(columns, rows, WIDTH, PAD):
     return grid
 
 
-def clean_grid(grid,columns,rows):
+# ignores walls, start, and end grid squares so you can click another path-finding algorithm and
+# keep the same start, end and wall squares to compare the algorithms
+def clean_grid(grid):
     for column in grid:
         for square in column:
-            if square.border == True\
-                or square.state == "wall"\
-                or square.state == "start_pos"\
-                or square.state == "end_pos":
+            if square.border or square.state == "wall" or square.state == "start_pos" or square.state == "end_pos":
                 continue
 
             square.turn_to_free()
@@ -44,10 +44,11 @@ def clean_grid(grid,columns,rows):
     return grid
 
 
-def clear_grid(grid, columns, rows):
+# unlike clean_grid, clear_grid frees every grid square except the walls on the outside of the grid
+def clear_grid(grid):
     for column in grid:
         for square in column:
-            if square.border == True:
+            if square.border:
                 continue
 
             square.turn_to_free()
@@ -55,4 +56,3 @@ def clear_grid(grid, columns, rows):
             square.back_trace = False
 
     return grid
-

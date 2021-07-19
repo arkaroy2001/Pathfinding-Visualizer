@@ -2,6 +2,7 @@ import colors
 import pygame
 import math
 
+
 class GridSquare:
     def __init__(self, row, col, width, PAD):
         self.x = col
@@ -13,13 +14,9 @@ class GridSquare:
         self.state = "free"
 
     border = False
-    distance = math.inf
-    done = False
     weight = 1
     is_visited = False
     back_trace = False
-
-
 
     def clicked(self, target_state):
         if target_state == self.state:
@@ -43,7 +40,6 @@ class GridSquare:
 
     def turn_to_start_pos(self):
         self.state = "start_pos"
-        #print("YOU")
         self.distance = 0
         self.color = colors.BLUE
 
@@ -68,10 +64,8 @@ class GridSquare:
             (((self.width + self.PAD) * self.x + self.PAD),((self.width+self.PAD) * self.y+self.PAD),self.width,self.width))
 
     def animate(self, SCREEN):
-        if self.is_visited==True:
+        if self.is_visited:
             self.color = colors.PURPLE
-        if self.back_trace == True:
+        if self.back_trace:
             self.color = colors.LIME_GREEN
         self.draw(SCREEN)
-        #print("THERE")
-

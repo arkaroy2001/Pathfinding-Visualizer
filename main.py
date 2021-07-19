@@ -1,18 +1,11 @@
 from tkinter import font
 
 import pygame
-from pygame.locals import *
-import math
-import tkinter as tk
-from tkinter import *
-import os
+
 import sys
 import button
 import colors
-import grid_square
 import grid_utils
-# root = tk.Tk()
-# # root.mainloop()
 import Algo
 
 
@@ -27,16 +20,6 @@ WIN_HEIGHT = (num_cols * (square_width+PAD))+100
 
 WIDTH = (num_cols * (square_width+PAD))
 HEIGHT = (num_cols * (square_width+PAD))
-
-FPS = 60
-
-
-
-
-#define colors
-
-# WIN_WIDTH = 800
-# WIN_HEIGHT = 700
 
 
 
@@ -83,7 +66,6 @@ def current_greedy():
 
 
 def main():
-    # print("You entered: ", sys.argv[1], sys.argv[2], sys.argv[3])
     global SCREEN, CLOCK
 
     pygame.init()
@@ -96,7 +78,6 @@ def main():
     pygame.display.set_caption("PathFinding Visualizer")
     grid = grid_utils.load_grid(num_cols, num_rows, square_width, 1)
 
-    # button = pygame.Rect(5,HEIGHT+10,100,50)
     while True:
 
         wall_button,start_button,end_button,pathfind_button,\
@@ -108,31 +89,39 @@ def main():
                 sys.exit()
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                # mouse_pos = event.pos
+
                 mouse_pos = pygame.mouse.get_pos()
 
                 if wall_button.button_rect.collidepoint(mouse_pos):
-                    #print("Wall Button was pressed")
+                    # wall button was pressed
                     current_walls()
                 elif start_button.button_rect.collidepoint(mouse_pos):
-                    #print("Start Button was pressed")
+                    # Start Button was pressed
                     current_start_pos()
                 elif end_button.button_rect.collidepoint(mouse_pos):
-                    #print("End Button was pressed")
+                    # End Button was pressed
                     current_end_pos()
                 elif clear_button.button_rect.collidepoint(mouse_pos):
-                    #print("Clear Button was pressed")
-                    grid = grid_utils.clear_grid(grid,num_cols,num_rows)
+                    # Clear Button was pressed
+                    grid = grid_utils.clear_grid(grid)
                 elif dijk_button.button_rect.collidepoint(mouse_pos):
+                    # dijkstra button was pressed
                     current_dijk()
                 elif astar_button.button_rect.collidepoint(mouse_pos):
+                    # a star button was pressed
                     current_astar()
                 elif greedy_button.button_rect.collidepoint(mouse_pos):
+                    # greedy first button was pressed
                     current_greedy()
                 elif pathfind_button.button_rect.collidepoint(mouse_pos):
-                    #print("Pathfind Button was pressed")
-                    grid = grid_utils.clean_grid(grid, num_cols, num_rows)
+                    # Path find button was pressed
+
+                    # clean the grid
+                    grid = grid_utils.clean_grid(grid)
+
+                    # initialize the graph to create a nested map
                     graph = Algo.Graph(grid)
+
                     if current_algo == "dijkstra":
                         graph.start_dijkstra(grid, SCREEN)
                     elif current_algo == "astar":
@@ -140,18 +129,23 @@ def main():
                     elif current_algo == "greedy":
                         graph.start_greedy(grid, SCREEN)
                 else:
+                    # get the grid that the mouse clicked on
                     column = mouse_pos[0] // (square_width + PAD)
                     row = mouse_pos[1] // (square_width + PAD)
+
                     try:
+                        # before we call the clicked function in grid_square, we will clean up
+
+                        # if we have the start button clicked, then we will free up any previous start
+                        # grids that are clicked
                         if current_mode == "start_pos":
                             for i in grid:
                                 for j in i:
-                                    #print("OK")
                                     if j.state == "start_pos":
                                         j.turn_to_free()
-                            #print("HERE")
-                            # grid[column][row].clicked(current_mode)
 
+                        # if we have the end button clicked, then we will free up any previous end
+                        # grids that are clicked
                         elif current_mode == "end_pos":
                             for i in grid:
                                 for j in i:
@@ -159,11 +153,13 @@ def main():
                                         j.turn_to_free()
                             # grid[column][row].clicked(current_mode)
 
+                        # call the clicked function in grid_square to execute current button/mode on the grid
                         grid[column][row].clicked(current_mode)
-                        #grid[column][row].print_values()
+
                     except:
                         pass
 
+            # hold down and drag walls on the grid
             elif pygame.mouse.get_pressed()[0]:
                 position = pygame.mouse.get_pos()
                 column = position[0] // (square_width + PAD)
@@ -174,23 +170,18 @@ def main():
                 elif current_mode == "start_pos":
                     pass
 
-
                 else:
                     try:
                         if grid[column][row].state == current_mode:
                             pass
                         else:
                             grid[column][row].clicked(current_mode)
-
                     except:
                         pass
 
-
-        # pygame.draw.rect(SCREEN,[255,0,0], button)
-
-
-        #update all the squares
+        # update all the squares
         update_squares(SCREEN, grid)
+
 
 def update_squares(SCREEN, grid):
     for row in grid:
@@ -199,6 +190,8 @@ def update_squares(SCREEN, grid):
 
     pygame.display.update()
 
+
+# draw all buttons on screen
 def drawButtons():
     wall_button = button.Button(SCREEN, colors.GRAY, 5, HEIGHT + 5, 160, 75, "Wall")
     wall_button.draw()
@@ -217,9 +210,6 @@ def drawButtons():
     greedy_button = button.Button(SCREEN, colors.LIME_GREEN if greedy_clicked is True else colors.WHITE, WIDTH + 2, 10 + 110, WIN_WIDTH - (WIDTH + 2), 50, "Greedy First")
     greedy_button.draw()
     return wall_button,start_button,end_button,pathfind_button,clear_button,dijk_button,astar_button,greedy_button
-
-
-
 
 
 if __name__ == "__main__":
